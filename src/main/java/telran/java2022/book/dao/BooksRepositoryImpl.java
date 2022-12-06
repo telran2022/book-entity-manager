@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +20,16 @@ public class BooksRepositoryImpl implements BookRepository {
 
 	@Override
 	public Stream<Book> findByAuthorsName(String authorName) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Book> query = em.createQuery("select b from Book b join b.authors a where a.name=?1", Book.class);
+		query.setParameter(1, authorName);
+		return query.getResultStream();
 	}
 
 	@Override
 	public Stream<Book> findByPublisherPublisherName(String publisherName) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Book> query = em.createQuery("select b from Book b join b.publisher p where p.publisherName=?1", Book.class);
+		query.setParameter(1, publisherName);
+		return query.getResultStream();
 	}
 
 	@Override
